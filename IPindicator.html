@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I love your IP</title>
+</head>
+<body>
+    <h1>:) ::</h1>
+    <p id="ip-address">Loading...</p>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>I love your IP</title>
+</head>
+<body>
+
+    <script>
+        // JavaScript code to fetch user's IP address
+        fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip-address').textContent = data.ip;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('ip-address').textContent = 'Failed to fetch IP.';
+            });
+    </script>
+    <pid="ip-address">Thanks...</p>
+
+</body>
+</html>
+
