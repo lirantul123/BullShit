@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> צור קשר</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            zoom: 125%;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom, #00bfff, #1e90ff);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom, #00bfff, #1e90ff);
+            padding: 20px;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin: 0;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background-color: black;
+        }
+
+        main {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        p {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffa500;
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #ff8c00;
+        }
+
+        footer {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        .social-icons {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .social-icons li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .social-icons a {
+            display: block;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            color: #333;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #00bfff;
+            color: #fff;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form-group textarea {
+            height: 120px;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 style="font-family: cursive; background-color: lightblu; border: none;">צור קשר</h1><br>
+                <ul>
+                      <a href="product.html" target="_blank">למוצרים שלנו</a
+                      <p></p>
+                      <a href="coastline.html" target="_blank">בית</a></li>
+
+                </ul><br>
+            <h1 style="font-family: cursive; color: black; border: none;"> </h1><br>
+
+        </header>
+        <main>
+            <form class="contact-form" method="POST" action="mailto:lira.tulchin@gmail.com" enctype="text/plain">
+                <div class="form-group">
+                    <label for="name">שם מלא</label>
+                    <input type="text" id="name" name="name" placeholder="הכנס את שמך המלא">
+                </div>
+                <div class="form-group">
+                    <label for="email">אימייל</label>
+                    <input type="email" id="email" name="email" placeholder="הכנס את כתובת האימייל שלך">
+                </div>
+                <div class="form-group">
+                    <label for="message">הודעה</label>
+                    <textarea id="message" name="message" placeholder="הכנס את ההודעה שלך"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">שלח</button>
+                </div>
+            </form>
+          </main>
+        <footer>
+            <ul class="social-icons">
+              <li><a href="https://instagram.com/coastline.il?igshid=MzRlODBiNWFlZA==" target="_blank"><i class="fab fa-instagram"></i></a></li>
+              <li><a href="https://www.tiktok.com/@coastline.il" target="_blank"><i class="fab fa-tiktok"></i></a></li>
+            </ul>
+            <p style="color: grey">© 2023 coastline. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

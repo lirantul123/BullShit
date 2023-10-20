@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חוף הים - גלה את החופים היפים</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            zoom: 125%;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom, #00bfff, #1e90ff);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom, #00bfff, #1e90ff);
+            padding: 20px;
+        }
+
+        header {
+
+            background-color: transparent;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 40px;
+
+        }
+
+        h1 {
+            font-size: 48px;
+            margin: 0;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background-color: black;
+        }
+
+        main {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        p {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffa500;
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #ff8c00;
+        }
+
+        footer {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        .social-icons {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .social-icons li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .social-icons a {
+            display: block;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            color: #333;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #00bfff;
+            color: #fff;
+        }
+
+        .clothes-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .clothes-item {
+            width: calc(25% - 20px);
+            margin: 10px;
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .clothes-item img {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .clothes-item h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .clothes-item p {
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1 style="font-family: cursive; color: black; border: none;">המוצרים שלנו</h1><br>
+                <ul>
+                      <a href="contact.html" target="_blank">צור קשר</a>
+                      <p></p>
+                      <a href="coastline.html" target="_blank">בית</a>
+                </ul><br>
+            <h1 style="font-family: cursive; color: black; border: none;"> </h1><br>
+
+        </header>
+        <section class="clothes-section">
+            <div class="clothes-item">
+                <img src="image1.jpg" alt="בגד 1">
+                <h3>חולצה קואז'ואלית</h3>
+                <p>התרגשות וסגנון עם החולצות הקואז'ואליות שלנו, מושלם לטיולים על החוף.</p>
+            </div>
+            <div class="clothes-item">
+                <img src="image2.jpg" alt="בגד 2">
+                <h3>שמלת חוף</h3>
+                <p>שדרג את מראה החוף שלך עם השמלות היפות שלנו, מעוצבות לנוחות וסגנון.</p>
+            </div>
+            <div class="clothes-item">
+                <img src="image3.jpg" alt="בגד 3">
+                <h3>כובע שמש</h3>
+                <p>הגן על עצמך מהשמש ותגרום לכולם להבין שאתה באמת מגניב עם הכובע המגניב שלנו.</p>
+            </div>
+            <div class="clothes-item">
+                <img src="image4.jpg" alt="בגד 4">
+                <h3>נעלי חוף</h3>
+                <p>התכונן להרפתקאות בחול עם נעלי החוף הקלות והנוחות שלנו.</p>
+            </div>
+        </section>
+        <footer>
+        <ul class="social-icons">
+          <li><a href="https://instagram.com/coastline.il?igshid=MzRlODBiNWFlZA==" target="_blank"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="https://www.tiktok.com/@coastline.il" target="_blank"><i class="fab fa-tiktok"></i></a></li>
+        </ul>
+            <p style="color: grey">© 2023 coastline. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
