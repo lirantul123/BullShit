@@ -5,6 +5,8 @@ import java.util.*;
  * I will ask you for which one - if you want also I will execute a method to lock for them
 **/
 
+
+with Mach 1 being the speed of sound itself
 class HelloWorld {
     public static Scanner in = new Scanner(System.in);
     public static int wordPlace = 0;
@@ -27,9 +29,12 @@ class HelloWorld {
             int numberOfThisWord = howManyTimesAppear(text, ans);
             if (numberOfThisWord != 1) {
                 String[] createWordsWithWord = createSentencesWithWord(text, ans, numberOfThisWord);
+                // For delete bug
+                
+                
                 String holderOfSentences = "[ ";
                 for (int i = 0; i < createWordsWithWord.length; i++) {
-                    holderOfSentences += createWordsWithWord[i] + ", ";
+                    holderOfSentences += createWordsWithWord[i] + " | ";
                     if (i == createWordsWithWord.length - 1)
                         holderOfSentences += createWordsWithWord[i] + " ]";
                 }
@@ -84,6 +89,15 @@ class HelloWorld {
                 j++;
             }
         }
+        // String[] sendAfterFixed = new String[numberOfThisWord];
+        // int k = 0;
+        // for (int i = 0; i < sendAfterFixed.length; i++){
+        //     if (i != numberOfThisWord-2){
+        //         sendAfterFixed[k] = createWordsWithWord[k];
+        //         k++;
+        //     }
+        // }
+            
         return createWordsWithWord;
     }
 
