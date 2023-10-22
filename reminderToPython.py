@@ -39,5 +39,6 @@ def methodWithValue(nums, value):
             currCount += 1
     return currCount
 
-print(length_of_longest_subarray([3, 2, 4, 2, 3])) 
+newArr = length_of_longest_subarray([3, 2, 4, 2, 3])
+print(newArr, "-  length: ", len(newArr)) 
 my_pet = Animal("Dog", "Buddy", 3)

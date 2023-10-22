@@ -6,7 +6,6 @@ import java.util.*;
 **/
 
 
-with Mach 1 being the speed of sound itself
 class HelloWorld {
     public static Scanner in = new Scanner(System.in);
     public static int wordPlace = 0;
@@ -34,9 +33,10 @@ class HelloWorld {
                 
                 String holderOfSentences = "[ ";
                 for (int i = 0; i < createWordsWithWord.length; i++) {
-                    holderOfSentences += createWordsWithWord[i] + " | ";
                     if (i == createWordsWithWord.length - 1)
                         holderOfSentences += createWordsWithWord[i] + " ]";
+                    else 
+                        holderOfSentences += createWordsWithWord[i] + " | ";
                 }
 
                 String strOfNumbers = countNumbers(numberOfThisWord);
@@ -70,11 +70,17 @@ class HelloWorld {
     }
 
     public static String countNumbers(int numberOfThisWord) {
+        boolean finishedShowNumbers = false;
         String strOfNumbers = "{ ";
         for (int i = 0; i < numberOfThisWord; i++) {
-            strOfNumbers += (i + 1) + ", ";
-            if (i == numberOfThisWord - 1)
+            if (finishedShowNumbers)
+                break;
+            if (i != numberOfThisWord - 3)
+                strOfNumbers += (i + 1) + ", ";
+            if (i == numberOfThisWord - 2){
                 strOfNumbers += (i + 2) + " }";
+                finishedShowNumbers = true;
+            }
         }
         return strOfNumbers;
     }
