@@ -27,9 +27,7 @@ class HelloWorld {
 
             int numberOfThisWord = howManyTimesAppear(text, ans);
             if (numberOfThisWord != 1) {
-                String[] createWordsWithWord = createSentencesWithWord(text, ans, numberOfThisWord);
-                // For delete bug
-                
+                String[] createWordsWithWord = createSentencesWithWord(text, ans, numberOfThisWord);                
                 
                 String holderOfSentences = "[ ";
                 for (int i = 0; i < createWordsWithWord.length; i++) {
