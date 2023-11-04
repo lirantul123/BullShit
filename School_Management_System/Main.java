@@ -30,13 +30,13 @@ public class Main {
             System.out.println("2. Exit");
             System.out.print("Select an option (1 or 2): ");
             int option = in.nextInt();
-            in.nextLine(); // Consume the newline character
+            in.nextLine(); 
 
             if (option == 1) {
                 login();
             } else if (option == 2) {
                 System.out.println("Goodbye!");
-                break;//
+                break;
             } else {
                 System.out.println("Invalid option. Please select 1 or 2.");
             }
@@ -72,16 +72,21 @@ public class Main {
             System.out.println("1. Show Grades");
             if (user.getRole().equals("admin")) {
                 System.out.println("2. Add Student");
+                System.out.println("3. Log Out");
+                System.out.print("Select an option (1, 2, or 3): ");
+
+            } else {
+                System.out.println("2. Log Out");
+                System.out.print("Select an option (1 or 2): ");
             }
-            System.out.println("3. Log Out");
-            System.out.print("Select an option (1, 2, or 3): ");
+    
             int option = in.nextInt();
-            in.nextLine(); // Consume the newline character
+            in.nextLine(); 
+                    System.out.println("----------------------------------");
 
             switch (option) {
                 case 1:
                     if (user.getRole().equals("admin")) {
-                        // Display grades for all students if the user is an admin
                         for (Entry<String, Entry<User, List<Grade>>> entry : userMap.entrySet()) {
                             User student = entry.getValue().getKey();
                             if (student.getRole().equals("student")) {
@@ -100,31 +105,54 @@ public class Main {
                         }
                     }
                     break;
-
+    
                 case 2:
+                    if (user.getRole().equals("student")) {
+                        System.out.println("Logging out.");
+                        return;
+                    }
+
                     if (user.getRole().equals("admin")) {
                         System.out.print("Enter new student's name: ");
                         String newStudentName = in.next();
                         System.out.print("Enter new student's password: ");
                         String newStudentPassword = in.next();
-
+    
                         User newStudent = new User(newStudentName, newStudentPassword, "student");
                         List<Grade> newStudentGrades = new ArrayList<>();
+                        
+                        String subAgrade;
+                        do {
+                            System.out.print("Enter subject and grade (e.g., Math: 90.5), or 's' to stop: ");
+                            subAgrade = in.nextLine();
+                            if (!subAgrade.equals("s")) {
+                                String[] parts = subAgrade.split(":");
+                                if (parts.length == 2) {
+                                    String subject = parts[0].trim();
+                                    double grade = Double.parseDouble(parts[1].trim());
+                                    newStudentGrades.add(new Grade(subject, grade));
+                                } else {
+                                    System.out.println("Invalid input. Please use the format 'subject: grade'.");
+                                }
+                            }
+                        } while (!subAgrade.equals("s"));
+                        
                         userMap.put(newStudentName, new AbstractMap.SimpleEntry<>(newStudent, newStudentGrades));
-                        System.out.println("New student " + newStudentName + " added.");
+                        System.out.println("New student '" + newStudentName + "' added.");
+                        System.out.println("----------------------------------");
                     }
                     break;
-
+    
                 case 3:
                     System.out.println("Logging out.");
                     return;
-
+    
                 default:
                     System.out.println("Invalid option. Please select 1, 2, or 3.");
             }
         }
     }
-
+    
     public static void readUserDataFromFile(String filename) {
         try {
             File file = new File(filename);
