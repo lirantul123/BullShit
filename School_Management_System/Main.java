@@ -36,7 +36,7 @@ public class Main {
                 login();
             } else if (option == 2) {
                 System.out.println("Goodbye!");
-                break;// Or exit(0)
+                break;//
             } else {
                 System.out.println("Invalid option. Please select 1 or 2.");
             }
