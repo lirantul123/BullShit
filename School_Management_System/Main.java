@@ -20,7 +20,7 @@ public class Main {
             readUserDataFromFile("users.txt");
         } else {
             User admin = new User("admin", "pass", "admin");
-            userMap.put("admin", new AbstractMap.SimpleEntry<>(admin, new ArrayList<>()));
+            userMap.put(admin.getRole(), new AbstractMap.SimpleEntry<>(admin, new ArrayList<>()));
         }
 
         while (true) {
@@ -82,45 +82,45 @@ public class Main {
     
             int option = in.nextInt();
             in.nextLine(); 
-                    System.out.println("----------------------------------");
+            System.out.println("----------------------------------");
 
             switch (option) {
                 case 1:
-                    if (user.getRole().equals("admin")) {
-                        for (Entry<String, Entry<User, List<Grade>>> entry : userMap.entrySet()) {
-                            User student = entry.getValue().getKey();
-                            if (student.getRole().equals("student")) {
-                                System.out.println("----------------------------------");
-                                System.out.println(student.getName() + "'s Grades:");
-                                for (Grade grade : student.getGrades()) {
-                                    System.out.println(grade);
-                                }
-                                System.out.println("----------------------------------");
+                if (user.getRole().equals("admin")) {
+                    for (Entry<String, Entry<User, List<Grade>>> entry : userMap.entrySet()) {
+                        User student = entry.getValue().getKey();
+                        if (student.getRole().equals("student")) { // Change "student" to "student" (lowercase)
+                            System.out.println("----------------------------------");
+                            System.out.println(student.getName() + "'s Grades:");
+                            for (Grade grade : student.getGrades()) {
+                                System.out.println(grade);
                             }
-                        }
-                    } else if (user.getRole().equals("student")) {
-                        System.out.println(user.getName() + "'s Grades:");
-                        for (Grade grade : user.getGrades()) {
-                            System.out.println(grade);
+                            System.out.println("----------------------------------");
                         }
                     }
-                    break;
-    
+                } else if (user.getRole().equals("student")) { // Change "student" to "student" (lowercase)
+                    System.out.println(user.getName() + "'s Grades:");
+                    for (Grade grade : user.getGrades()) {
+                        System.out.println(grade);
+                    }
+                }
+                break;
+                
                 case 2:
                     if (user.getRole().equals("student")) {
                         System.out.println("Logging out.");
                         return;
                     }
-
+                    
                     if (user.getRole().equals("admin")) {
                         System.out.print("Enter new student's name: ");
-                        String newStudentName = in.next();
+                        String newStudentName = in.nextLine();
                         System.out.print("Enter new student's password: ");
-                        String newStudentPassword = in.next();
-    
+                        String newStudentPassword = in.nextLine();
+                    
                         User newStudent = new User(newStudentName, newStudentPassword, "student");
                         List<Grade> newStudentGrades = new ArrayList<>();
-                        
+                    
                         String subAgrade;
                         do {
                             System.out.print("Enter subject and grade (e.g., Math: 90.5), or 's' to stop: ");
@@ -136,13 +136,20 @@ public class Main {
                                 }
                             }
                         } while (!subAgrade.equals("s"));
-                        
+                    
                         userMap.put(newStudentName, new AbstractMap.SimpleEntry<>(newStudent, newStudentGrades));
-                        System.out.println("New student '" + newStudentName + "' added.");
+                        System.out.println("New student '" + newStudentName + "' added and grades same.");
                         System.out.println("----------------------------------");
+                    
+                        System.out.println(newStudentName + "'s Grades:");
+                        for (Grade grade : newStudentGrades) {
+                            System.out.println(grade);
+                        }
+                        
+                        userMap.get(newStudentName).getKey().getGrades().addAll(newStudentGrades);
                     }
                     break;
-    
+                                
                 case 3:
                     System.out.println("Logging out.");
                     return;
