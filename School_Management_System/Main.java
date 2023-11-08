@@ -102,7 +102,7 @@ public class Main {
                                 System.out.println("----------------------------------");
                             }
                         }
-                        System.out.println((studentsNum == 0) ? "No Students yes.\n---------------------------------- " : "");
+                        System.out.println((studentsNum == 0) ? "No Students yet.\n---------------------------------- " : "");
 
                     } else if (user.getRole().equals("student")) {
                         System.out.println(user.getName() + "'s Grades:");
@@ -130,16 +130,21 @@ public class Main {
 
                         String subAgrade;
                         do {
+                            String invalidMessage = "Invalid input. Please use the format 'subject: grade'.";
                             System.out.print("Enter subject and grade (e.g., Math: 90.5), or 's' to stop: ");
                             subAgrade = in.nextLine();
                             if (!subAgrade.equals("s")) {
                                 String[] parts = subAgrade.split(":");
                                 if (parts.length == 2) {
                                     String subject = parts[0].trim();
-                                    double grade = Double.parseDouble(parts[1].trim());
-                                    newStudentGrades.add(new Grade(subject, grade));
+                                    try {
+                                        double grade = Double.parseDouble(parts[1].trim());
+                                        newStudentGrades.add(new Grade(subject, grade));
+                                    } catch (NumberFormatException e) {
+                                        System.out.println(invalidMessage);
+                                    }
                                 } else {
-                                    System.out.println("Invalid input. Please use the format 'subject: grade'.");
+                                    System.out.println(invalidMessage);
                                 }
                             }
                         } while (!subAgrade.equals("s"));
@@ -171,8 +176,10 @@ public class Main {
                         System.out.print("Content: ");
                         String content = in.nextLine();
 
+                        Message ms = new Message(sender, recipient, content);
+
                         //TODO: implement sending email;
-                        System.out.println("\n\nEmail has been send to " + recipient);
+                        System.out.println("\n\nEmail has been send to " + ms.getRecipient());
                         System.out.println("----------------------------------");
                         break;
                     }
@@ -229,6 +236,7 @@ public class Main {
         }
     }
 }
+
 
 
 
