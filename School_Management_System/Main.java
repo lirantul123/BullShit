@@ -30,7 +30,7 @@ public class Main {
             System.out.println("2. Exit");
             System.out.print("Select an option (1 or 2): ");
             int option = in.nextInt();
-            in.nextLine(); 
+            in.nextLine();
 
             if (option == 1) {
                 login();
@@ -73,54 +73,61 @@ public class Main {
             if (user.getRole().equals("admin")) {
                 System.out.println("2. Add Student");
                 System.out.println("3. Log Out");
-                System.out.print("Select an option (1, 2, or 3): ");
+                System.out.println("4. Send Message");
+                System.out.print("Select an option (1, 2, 3 or 4): ");
 
             } else {
                 System.out.println("2. Log Out");
-                System.out.print("Select an option (1 or 2): ");
+                System.out.println("3. Send Message");
+                System.out.print("Select an option (1, 2 or 3): ");
             }
-    
+
             int option = in.nextInt();
-            in.nextLine(); 
+            in.nextLine();
             System.out.println("----------------------------------");
 
+            int studentsNum = 0;
             switch (option) {
                 case 1:
-                if (user.getRole().equals("admin")) {
-                    for (Entry<String, Entry<User, List<Grade>>> entry : userMap.entrySet()) {
-                        User student = entry.getValue().getKey();
-                        if (student.getRole().equals("student")) { // Change "student" to "student" (lowercase)
-                            System.out.println("----------------------------------");
-                            System.out.println(student.getName() + "'s Grades:");
-                            for (Grade grade : student.getGrades()) {
-                                System.out.println(grade);
+                    if (user.getRole().equals("admin")) {
+                        for (Entry<String, Entry<User, List<Grade>>> entry : userMap.entrySet()) {
+                            User student = entry.getValue().getKey();
+                            if (student.getRole().equals("student")) {
+                                System.out.println("----------------------------------");
+                                System.out.println(student.getName() + "'s Grades:");
+                                for (Grade grade : student.getGrades()) {
+                                    System.out.println(grade);
+                                    studentsNum++;
+                                }
+                                System.out.println("----------------------------------");
                             }
-                            System.out.println("----------------------------------");
                         }
+                        System.out.println((studentsNum == 0) ? "No Students yes.\n---------------------------------- " : "");
+
+                    } else if (user.getRole().equals("student")) {
+                        System.out.println(user.getName() + "'s Grades:");
+                        for (Grade grade : user.getGrades()) {
+                            System.out.println(grade);
+                        }
+                        System.out.println("----------------------------------");
                     }
-                } else if (user.getRole().equals("student")) { // Change "student" to "student" (lowercase)
-                    System.out.println(user.getName() + "'s Grades:");
-                    for (Grade grade : user.getGrades()) {
-                        System.out.println(grade);
-                    }
-                }
-                break;
-                
+                    break;
+
                 case 2:
                     if (user.getRole().equals("student")) {
                         System.out.println("Logging out.");
                         return;
                     }
-                    
+
                     if (user.getRole().equals("admin")) {
                         System.out.print("Enter new student's name: ");
                         String newStudentName = in.nextLine();
                         System.out.print("Enter new student's password: ");
                         String newStudentPassword = in.nextLine();
-                    
+
                         User newStudent = new User(newStudentName, newStudentPassword, "student");
                         List<Grade> newStudentGrades = new ArrayList<>();
-                    
+
                         String subAgrade;
                         do {
                             System.out.print("Enter subject and grade (e.g., Math: 90.5), or 's' to stop: ");
@@ -136,30 +143,59 @@ public class Main {
                                 }
                             }
                         } while (!subAgrade.equals("s"));
-                    
+
                         userMap.put(newStudentName, new AbstractMap.SimpleEntry<>(newStudent, newStudentGrades));
                         System.out.println("New student '" + newStudentName + "' added and grades same.");
                         System.out.println("----------------------------------");
-                    
+
                         System.out.println(newStudentName + "'s Grades:");
                         for (Grade grade : newStudentGrades) {
                             System.out.println(grade);
                         }
-                        
+
                         userMap.get(newStudentName).getKey().getGrades().addAll(newStudentGrades);
                     }
                     break;
-                                
+
                 case 3:
-                    System.out.println("Logging out.");
-                    return;
-    
+                    if (user.getRole().equals("admin")) {
+                        System.out.println("Logging out.");
+                        return;
+                    }
+                    else{
+                        System.out.print("Sender Name: ");
+                        String sender = in.next();
+                        System.out.print("Recipient email: ");
+                        String recipient = in.next();
+
+                        System.out.print("Content: ");
+                        String content = in.nextLine();
+
+                        //TODO: implement sending email;
+                        System.out.println("\n\nEmail has been send to " + recipient);
+                        System.out.println("----------------------------------");
+                        break;
+                    }
+                case 4:
+                    System.out.print("Sender Name: ");
+                    String sender = in.next();
+                    System.out.print("Recipient email: ");
+                    String recipient = in.next();
+
+                    System.out.print("Content: ");
+                    String content = in.nextLine();
+
+                    //TODO: implement sending email;
+                    System.out.println("\n\nEmail has been send to " + recipient);
+                    System.out.println("----------------------------------");
+                    break;
+
                 default:
                     System.out.println("Invalid option. Please select 1, 2, or 3.");
             }
         }
     }
-    
+
     public static void readUserDataFromFile(String filename) {
         try {
             File file = new File(filename);
@@ -193,6 +229,8 @@ public class Main {
         }
     }
 }
+
+
 
 class User {
     private static int idCounter = 1;
