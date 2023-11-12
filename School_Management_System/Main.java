@@ -176,10 +176,10 @@ public class Main {
                         System.out.print("Content: ");
                         String content = in.nextLine();
 
-                        Message ms = new Message(sender, recipient, content);
+                        //Message ms = new Message(sender, recipient, content);
 
                         //TODO: implement sending email;
-                        System.out.println("\n\nEmail has been send to " + ms.getRecipient());
+                        //System.out.println("\n\nEmail has been send to " + ms.getRecipient());
                         System.out.println("----------------------------------");
                         break;
                     }
