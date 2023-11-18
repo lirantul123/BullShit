@@ -67,7 +67,7 @@ _start:
     MOV R0, #0 // RESULT
     MOV R1, #5
     MOV R2, #3
-    MOV R3, #5 // =R1's value(LDR r,=... -> LDR,[r])
+    MOV R3, #5 // Equals to R1's value(LDR r,=... -> LDR,[r])
 
 loop:
     ADD R0,R0,R2
