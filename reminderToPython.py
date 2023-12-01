@@ -1,6 +1,3 @@
-# Online Python compiler (interpreter) to run Python online.
-# Write Python 3 code in this online editor and run it.
-
 class Animal:
     def __init__(self, species, name, age):
         self.species = species
