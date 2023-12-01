@@ -1,7 +1,7 @@
 #ifndef GAME_OPENINGSCREEN_H
 #define GAME_OPENINGSCREEN_H
 
-#include <SDL.h>
+#include "SDL2/SDL.h"
 #include <map>
 #include <string>
 #include "Game.h"

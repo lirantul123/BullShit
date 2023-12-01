@@ -5,7 +5,7 @@
 
 int main()
 {
-    std::unique_ptr<OpeningScreen> myGame = std::make_unique<OpeningScreen>();
+    std::unique_ptr<OpeningScreen> myGame(new OpeningScreen());
 
     if (myGame->InitializeStartScreen()) {
         myGame->RunLoopO();

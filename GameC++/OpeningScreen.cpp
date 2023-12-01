@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 #include "holder.h"
-#include "SDL.h" // Include SDL header
+#include "SDL2/SDL.h"
 
 OpeningScreen::OpeningScreen()
         : mWindow(nullptr),
