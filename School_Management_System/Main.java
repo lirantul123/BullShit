@@ -10,17 +10,23 @@ import java.util.Map.Entry;
 import java.util.ArrayList;
 
 public class Main {
+    public static int messageId = 1;
     public static Scanner in = new Scanner(System.in);
     public static String fname, password;
     public static Map<String, Entry<User, List<Grade>>> userMap = new HashMap<>();
+    public static Queue<Message> ms = new Queue<Message>(); // Holding the messages, message queue will hold the waiting messages which have been received
 
     public static void main(String[] args) {
+
         File userFile = new File("users.txt");
         if (userFile.exists()) {
             readUserDataFromFile("users.txt");
         } else {
-            User admin = new User("admin", "pass", "admin");
+            User admin = new User("admin", "pass", "admin", ms);
             userMap.put(admin.getRole(), new AbstractMap.SimpleEntry<>(admin, new ArrayList<>()));
+            User stu = new User("student", "123", "student", ms);
+            userMap.put(stu.getRole(), new AbstractMap.SimpleEntry<>(stu, new ArrayList<>()));
+
         }
 
         while (true) {
@@ -68,18 +74,20 @@ public class Main {
 
     public static void showUserMenu(User user) {
         while (true) {
-            System.out.println("User Menu:");
+            System.out.println("Menu:");
             System.out.println("1. Show Grades");
+
             if (user.getRole().equals("admin")) {
                 System.out.println("2. Add Student");
                 System.out.println("3. Log Out");
                 System.out.println("4. Send Message");
-                System.out.print("Select an option (1, 2, 3 or 4): ");
-
+                System.out.println("5. Show Messages");
+                System.out.print("Select an option (1, 2, 3, 4, or 5): ");
             } else {
                 System.out.println("2. Log Out");
                 System.out.println("3. Send Message");
-                System.out.print("Select an option (1, 2 or 3): ");
+                System.out.println("4. Show Messages");
+                System.out.print("Select an option (1, 2, 3, or 4): ");
             }
 
             int option = in.nextInt();
@@ -102,7 +110,8 @@ public class Main {
                                 System.out.println("----------------------------------");
                             }
                         }
-                        System.out.println((studentsNum == 0) ? "No Students yet.\n---------------------------------- " : "");
+                        System.out.println((studentsNum == 0) ? "No Students yet.\n---------------------------------- " : "[(Having " + studentsNum + ")]");
+
 
                     } else if (user.getRole().equals("student")) {
                         System.out.println(user.getName() + "'s Grades:");
@@ -125,7 +134,7 @@ public class Main {
                         System.out.print("Enter new student's password: ");
                         String newStudentPassword = in.nextLine();
 
-                        User newStudent = new User(newStudentName, newStudentPassword, "student");
+                        User newStudent = new User(newStudentName, newStudentPassword, "student", ms);
                         List<Grade> newStudentGrades = new ArrayList<>();
 
                         String subAgrade;
@@ -168,37 +177,101 @@ public class Main {
                         return;
                     }
                     else{
-                        System.out.print("Sender Name: ");
-                        String sender = in.next();
-                        System.out.print("Recipient email: ");
-                        String recipient = in.next();
+                        // Send Message
+                        System.out.print("Recipient Name: ");
+                        String recipientName = in.nextLine();
 
-                        System.out.print("Content: ");
-                        String content = in.nextLine();
-
-                        //Message ms = new Message(sender, recipient, content);
-
-                        //TODO: implement sending email;
-                        //System.out.println("\n\nEmail has been send to " + ms.getRecipient());
-                        System.out.println("----------------------------------");
+                        if (userMap.containsKey(recipientName)) {
+                            System.out.print("Content: ");
+                            String content = in.nextLine();
+                            Message message = new Message(user.getName(), recipientName, content, "0"+messageId);
+                            messageId++;
+                            User recipient = userMap.get(recipientName).getKey();
+                            recipient.getMessages().insert(message);
+                            System.out.println("Message sent to " + recipientName);
+                        } else {
+                            System.out.println("Recipient not found.");
+                        }
                         break;
                     }
                 case 4:
-                    System.out.print("Sender Name: ");
-                    String sender = in.next();
-                    System.out.print("Recipient email: ");
-                    String recipient = in.next();
+                    // TODO: Check roles
+                    // TODO: Send Message
+                    if (user.getRole().equals("admin")) {
+                        System.out.print("Recipient Name: ");
+                        String recipientName = in.nextLine();
 
-                    System.out.print("Content: ");
-                    String content = in.nextLine();
+                        if (userMap.containsKey(recipientName)) {
+                            System.out.print("Content: ");
+                            String content = in.nextLine();
+                            Message message = new Message(user.getName(), recipientName, content, "0"+messageId);
+                            messageId++;
+                            User recipient = userMap.get(recipientName).getKey();
+                            recipient.getMessages().insert(message);
+                            System.out.println("Message sent to " + recipientName);
+                        } else {
+                            System.out.println("Recipient not found.");
+                        }
+                        break;
+                    }
+                    else {
+                        // Show Messages
+                        int numOfMessages = 0;
+                        System.out.println("Messages for " + user.getName() + ":");
+                        user.getMessages().insert(null);
 
-                    //TODO: implement sending email;
-                    System.out.println("\n\nEmail has been send to " + recipient);
-                    System.out.println("----------------------------------");
+                        Message message = user.getMessages().head();
+                        String firstId = message.getMessageId();
+
+                        while (user.getMessages().head() != null) {
+                             message = user.getMessages().head();
+
+                            if (numOfMessages != 0){
+                                if (message.getMessageId().equals(firstId))
+                                    break;
+                            }
+
+                            if (message != null) { // Check if message is null
+                                System.out.println("From: " + message.getSender());
+                                System.out.println("Message: " + message.getContent());
+                            }
+                            user.getMessages().insert(user.getMessages().remove());
+                            numOfMessages++;
+                        }
+
+                        user.getMessages().remove();
+                        break;
+                    }
+
+                case 5:
+                    // Show Messages
+                    int numOfMessages = 0;
+                    System.out.println("Messages for " + user.getName() + ":");
+                    user.getMessages().insert(null);
+
+                    Message message = user.getMessages().head();
+                    String firstId = message.getMessageId();
+
+                    while (user.getMessages().head() != null) {
+                        message = user.getMessages().head();
+
+                        if (numOfMessages != 0){
+                            if (message.getMessageId().equals(firstId))
+                                break;
+                        }
+                        if (message != null) { // Check if message is null
+                            System.out.println("From: " + message.getSender());
+                            System.out.println("Message: " + message.getContent());
+                        }
+                        user.getMessages().insert(user.getMessages().remove());
+                        numOfMessages++;
+                    }
+                    user.getMessages().remove();
                     break;
 
                 default:
-                    System.out.println("Invalid option. Please select 1, 2, or 3.");
+                    // TODO: Check roles
+                    System.out.println("Invalid option. Please select 1, 2, or 3 or 4 or maybe 5.");
             }
         }
     }
@@ -216,7 +289,7 @@ public class Main {
                     String password = parts[1];
                     String role = parts[2];
 
-                    User user = new User(name, password, role);
+                    User user = new User(name, password, role, ms);
 
                     for (int i = 3; i < parts.length; i++) {
                         String[] gradeParts = parts[i].split(":");
@@ -237,9 +310,6 @@ public class Main {
     }
 }
 
-
-
-
 class User {
     private static int idCounter = 1;
     private int id;
@@ -248,12 +318,19 @@ class User {
     private String role;
     private List<Grade> grades;
 
-    public User(String name, String password, String role) {
+    private Queue<Message> ms;
+
+    public User(String name, String password, String role, Queue<Message> ms) {
         this.id = idCounter++;
         this.name = name;
         this.password = password;
         this.role = role;
+        this.ms = ms;
         this.grades = new ArrayList<>();
+    }
+
+    public Queue<Message> getMessages() {
+        return ms;
     }
 
     public int getId() {
@@ -316,25 +393,135 @@ class Grade {
 }
 
 class Message {
-    private User sender;
-    private User recipient;
+    private String sender;
+    private String recipient;
     private String content;
+    private String id;
 
-    public Message(User sender, User recipient, String content) {
+    public Message(String sender, String recipient, String content, String id) {
         this.sender = sender;
         this.recipient = recipient;
         this.content = content;
+        this.id = id;
+    }
+
+
+    public String getSender() {
+        return sender;
+    }
+
+    public String getRecipient() {
+        return recipient;
     }
 
     public String getContent() {
         return content;
     }
 
-    public User getSender() {
-        return sender;
+    public String getMessageId() {
+        return id;
     }
 
-    public User getRecipient() {
-        return recipient;
+}
+
+class Node <T>{
+    private T value;
+    private Node <T> next;
+
+    public Node(T value)
+    {
+        this.value=value;
+        this.next=null;
+    }
+
+    public Node(T value, Node<T> next)
+    {
+        this.value=value;
+        this.next=next;
+    }
+
+    public Node<T> getNext()
+    {
+        return next;
+    }
+
+    public T getValue()
+    {
+        return value;
+    }
+    public boolean hasNext()
+    {
+        return this.next != null;
+    }
+
+    public void setNext(Node<T> next)
+    {
+        this.next = next;
+    }
+
+    public void setValue(T value)
+    {
+        this.value = value;
+    }
+
+    public String toString()
+    {
+        return  this.value.toString();
+    }
+}
+
+class Queue <T> {
+    private Node<T> first;
+    private Node<T> last;
+
+    public Queue()
+    {
+        this.first=null;
+        this.last=null;
+    }
+
+    public boolean isEmpty()
+    {
+        return this.first==null;
+    }
+
+    public void insert(T x)
+    {
+        Node<T> temp=new Node<T> (x);
+        if(this.last==null)
+            this.first=temp;
+        else
+            this.last.setNext(temp);
+        this.last=temp;
+    }
+
+    public T remove()
+    {
+        T x=this.first.getValue();
+        this.first=this.first.getNext();
+        if(this.first==null)
+            this.last=null;
+        return x;
+    }
+
+    public T head()
+    {
+        return this.first.getValue();
+    }
+
+    public String toString()
+    {
+        String str="[";
+        Node<T> pos=this.first;
+        while(pos != null)
+        {
+            if(pos.hasNext())
+                str=str+pos.getValue()+", ";
+            else
+                str=str+pos.getValue();
+            pos=pos.getNext();
+        }
+        str=str+"]";
+        return str;
     }
 }
