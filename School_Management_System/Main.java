@@ -217,28 +217,33 @@ public class Main {
                     else {
                         // Show Messages
                         int numOfMessages = 0;
-                        System.out.println("Messages for " + user.getName() + ":");
+                        System.out.println("Messages for '" + user.getName() + "':");
                         user.getMessages().insert(null);
 
+                        if (messageId == 1)
+                            break;
+                        
                         Message message = user.getMessages().head();
                         String firstId = message.getMessageId();
 
                         while (user.getMessages().head() != null) {
                              message = user.getMessages().head();
-
+                             
+                            // Not needed
                             if (numOfMessages != 0){
                                 if (message.getMessageId().equals(firstId))
                                     break;
                             }
-
+                            //
                             if (message != null) { // Check if message is null
                                 System.out.println("From: " + message.getSender());
+                                System.out.println("To: " + message.getRecipient());
                                 System.out.println("Message: " + message.getContent());
                             }
                             user.getMessages().insert(user.getMessages().remove());
                             numOfMessages++;
                         }
-
+                        System.out.println("----------------------------------");
                         user.getMessages().remove();
                         break;
                     }
@@ -246,8 +251,11 @@ public class Main {
                 case 5:
                     // Show Messages
                     int numOfMessages = 0;
-                    System.out.println("Messages for " + user.getName() + ":");
+                    System.out.println("Messages for '" + user.getName() + "':");
                     user.getMessages().insert(null);
+
+                    if (messageId == 1)
+                        break;
 
                     Message message = user.getMessages().head();
                     String firstId = message.getMessageId();
@@ -255,17 +263,21 @@ public class Main {
                     while (user.getMessages().head() != null) {
                         message = user.getMessages().head();
 
+                        // Not needed
                         if (numOfMessages != 0){
                             if (message.getMessageId().equals(firstId))
                                 break;
                         }
+                        //
                         if (message != null) { // Check if message is null
-                            System.out.println("From: " + message.getSender());
+                            System.out.println("From: " + message.getSender());             
+                            System.out.println("To: " + message.getRecipient());
                             System.out.println("Message: " + message.getContent());
                         }
                         user.getMessages().insert(user.getMessages().remove());
                         numOfMessages++;
                     }
+                    System.out.println("----------------------------------");
                     user.getMessages().remove();
                     break;
 
