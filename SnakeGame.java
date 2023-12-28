@@ -129,9 +129,9 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 currCount++;
                 // Little slow the fast going speed
                 if (GAME_SPEED < 90)
-                    GAME_SPEED-=5;
+                    GAME_SPEED -= 5;
                 else
-                    GAME_SPEED-=10;
+                    GAME_SPEED -= 10;
                 timer.setDelay(GAME_SPEED);
                 System.out.println(GAME_SPEED);
                 updateScoreLabels();
