@@ -1,8 +1,8 @@
 import java.util.*;
 
 // Goal: find the number after ans
-/** If there more than one specific word and you wnat to get to the second for instance,
- * I will ask you for which one - if you want also I will execute a method to lock for them
+/** If there more than one specific word and you want to get to the second for instance,
+ * It will ask you for which one - if you want also It will execute a method to look for them
 **/
 
 
