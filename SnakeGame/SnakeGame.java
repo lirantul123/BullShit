@@ -1,16 +1,26 @@
+package SnakeGame;
+
 import javax.swing.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class SnakeGame extends JFrame implements ActionListener, KeyListener {
+    private BufferedImage snakeBodyImage, appleImage;  
+
     private static final int GRID_SIZE = 20;
     private static final int CELL_SIZE = 21;
-    private static int GAME_SPEED = 180;
+    private static final int GAME_SPEED = 140;
     private static int currCount = 0;
     private static int recordCount = 0;
 
@@ -35,6 +45,14 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+
+        try {
+            snakeBodyImage = ImageIO.read(new File("pixelSnake.png"));
+            appleImage = ImageIO.read(new File("pixelApple.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle the exception appropriately in a real application
+        }
 
         // Initialize components
         initUI();
@@ -128,11 +146,6 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 spawnFruit();
                 currCount++;
                 // Little slow the fast going speed
-                if (GAME_SPEED < 90)
-                    GAME_SPEED -= 5;
-                else
-                    GAME_SPEED -= 10;
-                timer.setDelay(GAME_SPEED);
                 System.out.println(GAME_SPEED);
                 updateScoreLabels();
             } else {
@@ -167,8 +180,6 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
 
     private void resetGame() {
         snake.clear();
-        GAME_SPEED = 180;
-        timer = new Timer(GAME_SPEED, this);
         direction = Direction.RIGHT;
         isGameOver = false;
         spawnSnake();
@@ -184,14 +195,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         g.drawLine(0, scoreLabel.getHeight() - 18, getWidth(), scoreLabel.getHeight() - 18);
 
         // Draw Snake
-        g.setColor(Color.GREEN);
         for (Point point : snake) {
-            g.fillRect(point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            // Draw the snake body image at the specified position
+            g.drawImage(snakeBodyImage, point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE+10, CELL_SIZE+10, null);
         }
 
         // Draw Fruit
         g.setColor(Color.RED);
         g.fillRect(fruit.x * CELL_SIZE, fruit.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
     }
 
     @Override
