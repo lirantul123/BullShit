@@ -1,7 +1,14 @@
 package SnakeGame;
 
 import javax.swing.*;
+
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +39,8 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private Point fruit;
     private Direction direction;
 
+    private Clip eatingAppleSound, smashSnakeSound;
+
     private Timer timer;
     private boolean isGameOver;
 
@@ -46,13 +55,30 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
         setLocationRelativeTo(null);
         setResizable(false);
 
+        // Loading figures and sound effects
         try {
             snakeBodyImage = ImageIO.read(new File("pixelSnake.png"));
             appleImage = ImageIO.read(new File("pixelApple.png"));
 
         } catch (IOException e) {
-            e.printStackTrace(); // Handle the exception appropriately in a real application
+            e.printStackTrace(); 
         }
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("eatingAppleSound.wav"));
+            eatingAppleSound = AudioSystem.getClip();
+            eatingAppleSound.open(audioInputStream);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("smashSnake.wav"));
+            smashSnakeSound = AudioSystem.getClip();
+            smashSnakeSound.open(audioInputStream);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+
+
 
         // Initialize components
         initUI();
@@ -145,7 +171,8 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 snake.addFirst(newHead);
                 spawnFruit();
                 currCount++;
-                // Little slow the fast going speed
+                //  ---- 
+                playEatingSound();
                 System.out.println(GAME_SPEED);
                 updateScoreLabels();
             } else {
@@ -160,6 +187,14 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 if (currCount > recordCount)
                     recordCount = currCount;
                 updateScoreLabels();
+
+                playSmashingSound();
+                try {
+                    Thread.sleep(100); // 0.1 seconds
+                } catch (InterruptedException e) {
+                    e.printStackTrace(); 
+                }
+
                 JOptionPane.showMessageDialog(this, "Game Over!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                 resetGame();
             }
@@ -255,6 +290,22 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
     }
+
+    
+    // Implementing sound effects
+    private void playEatingSound() {
+        if (eatingAppleSound != null) {
+            eatingAppleSound.setFramePosition(0);
+            eatingAppleSound.start();
+        }
+    }
+    private void playSmashingSound() {
+        if (smashSnakeSound != null) {
+            smashSnakeSound.setFramePosition(0);
+            smashSnakeSound.start();
+        }
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
