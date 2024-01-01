@@ -1,7 +1,6 @@
 package SnakeGame;
 
 import javax.swing.*;
-
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -21,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private BufferedImage snakeBodyImage, appleImage;  
@@ -45,10 +45,15 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
     private boolean isGameOver;
 
     private GamePanel gamePanel;
+    private Login login;
+
     private JLabel scoreLabel;
     private JLabel recordLabel;
 
     public SnakeGame() {
+        login = new Login();
+        login.checkVerfication();
+
         setTitle("Snake Game");
         setSize(GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,7 +186,7 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
                 snake.removeLast();
             }
 
-            if (isCollisionWithItself()) {
+            if (isCollisionWithItself() || isCollisionWithBoard()) {
                 // Game Over condition
                 isGameOver = true;
                 if (currCount > recordCount)
@@ -211,6 +216,11 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             }
         }
         return false;
+    }
+
+    private boolean isCollisionWithBoard() {
+        Point head = snake.getFirst();
+        return head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE;
     }
 
     private void resetGame() {
@@ -321,4 +331,34 @@ public class SnakeGame extends JFrame implements ActionListener, KeyListener {
             draw(g);
         }
     }
+}
+
+class Login
+{
+    Scanner in = new Scanner(System.in);
+
+    private String usernameField;
+    private String passwordField;
+
+    public Login() {
+        //setLayout(new GridLayout(3, 2));
+
+        // Add labels, input fields, and the login button
+        System.out.print("Username: ");
+        usernameField = in.nextLine();
+        System.out.print("Password: ");
+        passwordField = in.nextLine();
+
+        // Add action listener for the login button
+        //loginButton.addActionListener(this::loginAction);
+    }
+
+    public void checkVerfication(){
+        if (!usernameField.equals(passwordField))
+            System.exit(0);
+    }
+    private void loginAction(ActionEvent e) {
+        // Handle login logic here
+    }
+
 }
