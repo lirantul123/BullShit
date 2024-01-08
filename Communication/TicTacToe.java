@@ -1,7 +1,9 @@
-public class tictactow {
+package Communication;
+
+public class TicTacToe {
     public String[][] place;
 
-    public tictactow() {
+    public TicTacToe() {
         place = new String[3][3];
         initializeBoard();
     }
@@ -24,12 +26,16 @@ public class tictactow {
             }
             board += "\n";
         }
-         board += " _ _ _\n";
+        board += " _ _ _\n";
 
         return board;
     }
 
-    public void setPlace(int i, int j, String sym) {
-        place[i][j] = sym;
+    public boolean setPlace(int row, int col, String symbol) {
+        if (row >= 0 && row < 3 && col >= 0 && col < 3 && place[row][col].equals(" ")) {
+            place[row][col] = symbol;
+            return true;
+        }
+        return false;
     }
 }

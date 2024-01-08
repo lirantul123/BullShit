@@ -6,8 +6,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Server{
-    public static final int PORT = 8080;
+
+public class Server extends Client{
+    public static final int PORT = 1234;
 
     public static void main(String[] args) {
         try {
@@ -22,18 +23,19 @@ public class Server{
 
             Scanner scanner = new Scanner(System.in);
 
+
             while (true) {
                 // Receive message
                 String receivedMessage = in.nextLine();
                 System.out.println("#: '" + receivedMessage + "'");
-                System.out.println(Client.t.print());
+                System.out.println(tic.print());
 
                 // Send message
                 System.out.print("Enter position(e.g 00): ");
                 String messageToSend = scanner.nextLine();
 
-                Client.t.setPlace(Integer.parseInt(messageToSend)/10, Integer.parseInt(messageToSend)%10, "O");
-                System.out.println(Client.t.print());
+                tic.setPlace(Integer.parseInt(messageToSend)/10, Integer.parseInt(messageToSend)%10, "O");
+                System.out.println(tic.print());
 
                 out.println(messageToSend);
 

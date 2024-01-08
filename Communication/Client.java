@@ -5,10 +5,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-// tic tac tow online
+// tic tac towe online
 public class Client {
-    public static final int PORT = 8080;
-    public static tictactow t = new tictactow();
+    public static final int PORT = 1234;
+    public static TicTacToe tic = new TicTacToe();
 
     public static void main(String[] args) {
         try {
@@ -20,14 +20,16 @@ public class Client {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println(t.print());
+
+            System.out.println(tic.print());
 
             while (true) {
                 // Send message
                 System.out.print("Enter position(e.g 00): ");
                 String messageToSend = scanner.nextLine();
-                t.setPlace(Integer.parseInt(messageToSend)/10, Integer.parseInt(messageToSend)%10, "X");
-                System.out.println(t.print());
+
+                tic.setPlace(Integer.parseInt(messageToSend) / 10, Integer.parseInt(messageToSend) % 10, "X");
+                System.out.println(tic.print());
 
                 out.println(messageToSend);
 
@@ -36,7 +38,7 @@ public class Client {
                 // Receive message
                 String receivedMessage = in.nextLine();
                 System.out.println("#: '" + receivedMessage + "'");
-                System.out.println(t.print());
+                System.out.println(tic.print());
             }
         } catch (IOException e) {
             e.printStackTrace();
