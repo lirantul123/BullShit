@@ -69,8 +69,8 @@ void applyOperator(std::stack<int>& values, std::stack<char>& operators, char op
             values.push(operand1 / operand2);
             break;
         case '^':
-            int ans=0;
-            for (int i =0; i < operand2; i++) { ans += operand1*operand1; }
+            int ans=1;
+            for (int i =0; i < operand2; i++) { ans *= operand1; }
             values.push(ans);
             break;
 
