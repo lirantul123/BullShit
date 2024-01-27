@@ -1,12 +1,20 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <thread>
+#include <chrono>
+// The program Personal ensures user authentication, allowing individuals to interact with their personal finances securely. 
+// While it offers essential functionalities for tracking finances, several areas, such as input validation, data persistence, 
+// enhanced error handling, user interface improvements, and additional features, could be further developed for
+// a more comprehensive and user-friendly experience.
+#define SLEEP(x) this_thread::sleep_for(chrono::seconds(x)) 
+
 using namespace std;
 
 class User
 {
 public:
-    User() : balance(0), phone("") {}
+    User() : balance(0), phone(""), password("") {}
 
     void addIncome(float amount, const string& category)
     {
@@ -26,33 +34,63 @@ public:
         comments.push_back("Expense: -" + to_string(amount) + " (" + category + ")");
     }
 
-    void addTransaction(float amount, const string& phoneGetter, vector<User>& users, User user)
+    void addTransaction(float amount, const string& phoneGetter, vector<User>& users, User user, string& pass)
     {
+        bool dontExploit = false;
+        int tries = 0; const int MaxTries = 3;
         if (!checkBalance(amount))
         {
             cout << "\nYOU DON'T HAVE ENOUGH MONEY; you cannot send this amount\n";
             return;
         }
 
-        bool receiverExists = false;
-        for (auto& perUser : users)
+        while (pass != password)
         {
-            if (perUser.phone == phoneGetter &&  perUser.phone != user.phone)
+            tries++;
+            cout << "------------\n";
+            cout << "You left more " << MaxTries - tries << " tries\n";
+            cout << "------------\n";
+            if (tries == 3)
             {
-                receiverExists = true;
-                perUser.balance += amount;
+                cout << " You have to wait a minute now\n";
+
+                for (int i = 60; i > 0; i--)
+                {
+                    SLEEP(1);
+                    cout << i << ", ";
+                    if (i == 1)
+                        cout << i << ".\n";
+
+                }
+                cout << "------------\n";
+                dontExploit = true;
                 break;
             }
+            cout << "Enter your passord agian for confirmation: ";
+            cin.ignore(); 
+            getline(cin, pass);
         }
-
-        if (receiverExists)
-        {
-            balance -= amount;
-            comments.push_back("Transaction: -" + to_string(amount) + " to '" + phoneGetter + "'");
-            
+    
+        if (!dontExploit){
+            bool receiverExists = false;
+            for (auto& perUser : users)
+            {
+                if (perUser.phone == phoneGetter &&  perUser.phone != user.phone)
+                {
+                    receiverExists = true;
+                    break;
+                }
+            }
+        
+            if (receiverExists)
+            {
+                balance -= amount;
+                comments.push_back("Transaction: -" + to_string(amount) + " to '" + phoneGetter + "'");
+                
+            }
+            else
+                cout << "\nRECEIVER NOT FOUND; transaction canceled\n";
         }
-        else
-            cout << "\nRECEIVER NOT FOUND; transaction canceled\n";
     }
 
     float getBalance() const
@@ -72,6 +110,7 @@ public:
 public:
     float balance;
     string phone;
+    string password;
 
     bool checkBalance(float amount) const
     {
@@ -93,10 +132,13 @@ int main()
     User user3;
     user1.balance = 1000;
     user1.phone = "0";
+    user1.password = "0";
     user2.balance = 500;
     user2.phone = "00";
+    user2.password = "00";
     user3.balance = 2000;
     user3.phone = "000";
+    user3.password = "000";
 
     vector<User> users;
     users.push_back(user1);
@@ -106,20 +148,24 @@ int main()
     User user; 
     bool found = false;
     string ph;
+    string pss;
 
     while (!found){
-        cout << "Who are you: ";
+        cout << "Who are you(phone): ";
         getline(cin, ph);
+        cout << "And passowrd? ";
+        getline(cin, pss);
 
         for (auto& perUser : users)
         {
-            if (perUser.phone == ph)
+            if (perUser.phone == ph && perUser.password == pss)
             {
                 found = true;
                 user = perUser;
             }
         }
     }
+    cout << "\n";
 
     while (true)
     {
@@ -165,14 +211,17 @@ int main()
             {
                 float amount;
                 string phoneGetter;
+                string pass;
                 cout << "Enter transaction amount: ";
                 cin >> amount;
                 cout << "Enter the name(phone_later) whose money you want to send: ";
                 cin.ignore(); 
                 getline(cin, phoneGetter);
-                user.addTransaction(amount, phoneGetter, users, user);
-                break;
-
+                cout << "Enter your passord for confirmation: ";
+                cin.ignore(); 
+                getline(cin, pass);
+                user.addTransaction(amount, phoneGetter, users, user, pass);
+              
             }
             case 4:
                 cout << "\nCurrent Balance: " << user.getBalance() << endl;
