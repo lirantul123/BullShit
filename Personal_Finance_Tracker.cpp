@@ -8,23 +8,22 @@
 // enhanced error handling, user interface improvements, and additional features, could be further developed for
 // a more comprehensive and user-friendly experience.
 #define SLEEP(x) this_thread::sleep_for(chrono::seconds(x)) 
-
 using namespace std;
 
 class User
 {
 public:
-    User() : balance(0), phone(""), password("") {}
+    User() : balance(0), phone(""), password("") {} // Resets what needed
 
-    void addIncome(float amount, const string& category)
+    void addIncome(float amount, const string& category) // Add money method
     {
         balance += amount;
         comments.push_back("Income: +" + to_string(amount) + " (" + category + ")");
     }
 
-    void addExpense(float amount, const string& category)
+    void addExpense(float amount, const string& category)// Subtract money method
     {
-        if (!checkBalance(amount))
+        if (!checkBalance(amount))// Check if balance under zero
         {
             cout << "\nYOU DON'T HAVE ENOUGH MONEY to withdraw\n";
             return;
@@ -34,17 +33,17 @@ public:
         comments.push_back("Expense: -" + to_string(amount) + " (" + category + ")");
     }
 
-    void addTransaction(float amount, const string& phoneGetter, vector<User>& users, User user, string& pass)
+    void addTransaction(float amount, const string& phoneGetter, vector<User>& users, User user, string& pass)// Making transaction method
     {
-        bool dontExploit = false;
+        bool dontExecute = false;
         int tries = 0; const int MaxTries = 3;
-        if (!checkBalance(amount))
+        if (!checkBalance(amount))// Check if balance under zero
         {
             cout << "\nYOU DON'T HAVE ENOUGH MONEY; you cannot send this amount\n";
             return;
         }
 
-        while (pass != password)
+        while (pass != password)// The user has max 3 tries, or he waits minute
         {
             tries++;
             cout << "------------\n";
@@ -54,7 +53,7 @@ public:
             {
                 cout << " You have to wait a minute now\n";
 
-                for (int i = 60; i > 0; i--)
+                for (int i = 60; i > 0; i--)// If reaches 3 tries, loop 60 times one second(one minute)
                 {
                     SLEEP(1);
                     cout << i << ", ";
@@ -63,7 +62,7 @@ public:
 
                 }
                 cout << "------------\n";
-                dontExploit = true;
+                dontExecute = true; // won't continue execute the purpose of this method
                 break;
             }
             cout << "Enter your passord agian for confirmation: ";
@@ -71,9 +70,9 @@ public:
             getline(cin, pass);
         }
     
-        if (!dontExploit){
+        if (!dontExecute){
             bool receiverExists = false;
-            for (auto& perUser : users)
+            for (auto& perUser : users) // Search the user to send the money to, and make sure it is not himself
             {
                 if (perUser.phone == phoneGetter &&  perUser.phone != user.phone)
                 {
@@ -82,7 +81,7 @@ public:
                 }
             }
         
-            if (receiverExists)
+            if (receiverExists)// Subtracts the money form the sender's account
             {
                 balance -= amount;
                 comments.push_back("Transaction: -" + to_string(amount) + " to '" + phoneGetter + "'");
@@ -93,12 +92,12 @@ public:
         }
     }
 
-    float getBalance() const
+    float getBalance() const // Return the balance amount
     {
         return balance;
     }
 
-    void displayTransactions() const
+    void displayTransactions() const // Display the whole transactions which have been executed(by the other methods)
     {
         cout << "\nTransaction History:\n";
         for (const string& comment : comments)
@@ -107,12 +106,13 @@ public:
         }
     }
 
-public:
+public:// TODO: Should be private later on
+    // Define used Variables 
     float balance;
     string phone;
     string password;
 
-    bool checkBalance(float amount) const
+    bool checkBalance(float amount) const // Check if insufficient balance
     {
         if (balance < amount)
         {
@@ -122,11 +122,12 @@ public:
         return true;
     }
 
-    vector<string> comments;
+    vector<string> comments; // because vector I put it here( idk-> ;) )
 };
 
 int main()
 {
+    // Some tests
     User user1;
     User user2;
     User user3;
@@ -140,17 +141,19 @@ int main()
     user3.phone = "000";
     user3.password = "000";
 
+    // enter them to the vector of users
     vector<User> users;
     users.push_back(user1);
     users.push_back(user2);
     users.push_back(user3);
 
+    // user entered details
     User user; 
     bool found = false;
     string ph;
     string pss;
 
-    while (!found){
+    while (!found){// Find the user by his details
         cout << "Who are you(phone): ";
         getline(cin, ph);
         cout << "And passowrd? ";
@@ -158,16 +161,16 @@ int main()
 
         for (auto& perUser : users)
         {
-            if (perUser.phone == ph && perUser.password == pss)
+            if (perUser.phone == ph && perUser.password == pss) 
             {
                 found = true;
-                user = perUser;
+                user = perUser; // match the user to his account
             }
         }
     }
     cout << "\n";
 
-    while (true)
+    while (true) // User's deploy's options- 1,2,3,4,5,0
     {
         cout << "Personal Finance Tracker\n";
         cout << "1. Add Income\n";
@@ -183,7 +186,7 @@ int main()
 
         switch (choice)
         {
-            case 1:
+            case 1:// Add Income
             {
                 float amount;
                 string category;
@@ -195,7 +198,7 @@ int main()
                 user.addIncome(amount, category);
                 break;
             }
-            case 2:
+            case 2:// Subtract Amount
             {
                 float amount;
                 string category;
@@ -207,7 +210,7 @@ int main()
                 user.addExpense(amount, category);
                 break;
             }
-            case 3:
+            case 3:// Make Transaction
             {
                 float amount;
                 string phoneGetter;
@@ -223,20 +226,20 @@ int main()
                 user.addTransaction(amount, phoneGetter, users, user, pass);
               
             }
-            case 4:
+            case 4:// Display the balance amount
                 cout << "\nCurrent Balance: " << user.getBalance() << endl;
                 break;
-            case 5:
+            case 5:// Display the transactions
                 user.displayTransactions();
                 break;
-            case 0:
+            case 0:// Display the transactions
                 cout << "\nExiting the Personal Finance Tracker. Goodbye!\n";
                 return 0;
-            default:
-                cout << "Invalid choice. Please enter a valid option.\n";
+            default:// Default choice
+                cout << "Invalid choice. Please enter a valid option(1, 2, 3, 4, 5 or 0).\n";
         }
 
-        cout << "--------------------------------------\n\n";
+        cout << "--------------------------------------\n\n"; // for the appearance
     }
 
     return 0;
