@@ -59,7 +59,6 @@ public:
                     cout << i << ", ";
                     if (i == 1)
                         cout << i << ".\n";
-
                 }
                 cout << "------------\n";
                 dontExecute = true; // won't continue execute the purpose of this method
@@ -122,7 +121,7 @@ public:// TODO: Should be private later on
         return true;
     }
 
-    vector<string> comments; // because vector I put it here( idk-> ;) )
+    vector<string> comments; // because it's vector I put it here( idk-> ;) )
 };
 
 int main()
