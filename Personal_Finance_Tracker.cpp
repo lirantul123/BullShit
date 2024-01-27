@@ -7,7 +7,7 @@
 // While it offers essential functionalities for tracking finances, several areas, such as input validation, data persistence, 
 // enhanced error handling, user interface improvements, and additional features, could be further developed for
 // a more comprehensive and user-friendly experience.
-#define SLEEP(x) this_thread::sleep_for(chrono::seconds(x)) 
+#define SLEEP(x) this_thread::sleep_for(chrono::seconds(x))// for easy understanding
 using namespace std;
 
 class User
