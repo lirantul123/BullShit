@@ -14,21 +14,6 @@ class User
 {
 public:
     User() : balance(0), phone(""), password(""), totalTries(0) {} // Resets what needed
-    ~User()
-    { 
-        cout << "\n";
-        
-        for (int i = 0; i < 3; i++)
-        {
-            if (i == 0)
-                cout << "-----------------------\n";
-            if (i == 2)
-                cout << "-----------------------\n";
-            if (i != 0 && i != 2)    
-            cout << "| THANKS, ReTuRn BaCk! |\n";
-        }
-
-    }
     void addIncome(float amount, const string& category) // Add money method
     {
         balance += amount;
@@ -47,7 +32,7 @@ public:
         comments.push_back("Expense: -" + to_string(amount) + " (" + category + ")");
     }
 
-    void addTransaction(float amount, const string& phoneGetter, vector<User*> users, User *user, string& pass)// Making transaction method
+    void addTransaction(float amount, const string& phoneGetter, vector<User> users, User user, string& pass)// Making transaction method
     {
         bool dontExecute = false;
         int tries = 0; const int MaxTries = 3;
@@ -87,7 +72,7 @@ public:
             bool receiverExists = false;
             for (auto& perUser : users) // Search the user to send the money to, and make sure it is not himself
             {
-                if (perUser->phone == phoneGetter &&  perUser->phone != user->phone)
+                if (perUser.phone == phoneGetter &&  perUser.phone != user.phone)
                 {
                     receiverExists = true;
                     break;
@@ -118,6 +103,20 @@ public:
             cout << "- " << comment << endl;
         }
     }
+public:
+    void exitMessage(){
+        cout << "\n";
+        
+        for (int i = 0; i < 3; i++)
+        {
+            if (i == 0)
+                cout << " ----------------------\n";
+            if (i == 2)
+                cout << " ----------------------\n";
+            if (i != 0 && i != 2)    
+            cout << "| THANKS, ReTuRn BaCk! |\n";
+        }
+    }
 
 public:// TODO: Should be private later on
     // Define used Variables 
@@ -141,20 +140,20 @@ public:// TODO: Should be private later on
 
 int main()
 {
-    vector<User*> users;
+    vector<User> users;
     User user1, user2, user3;
     user1.balance = 1000;
     user1.phone = "0";
     user1.password = "0";
-    users.push_back(&user1);
+    users.push_back(user1);
     user2.balance = 2000;
     user2.phone = "00";
     user2.password = "00";
-    users.push_back(&user2);
+    users.push_back(user2);
     user3.balance = 3000;
     user3.phone = "000";
     user3.password = "000";
-    users.push_back(&user3);
+    users.push_back(user3);
 
     int currentUserIndex = -1;
 
@@ -170,7 +169,7 @@ int main()
 
         for (int i = 0; i < users.size(); ++i)
         {
-            if (users[i]->phone == ph && users[i]->password == pss)
+            if (users[i].phone == ph && users[i].password == pss)
             {
                 currentUserIndex = i;
                 break;
@@ -178,7 +177,7 @@ int main()
         }
     }
 
-    User* currentUser = users[currentUserIndex];
+    User currentUser = users[currentUserIndex];
     cout << "\n";
 
     while (true)
@@ -206,7 +205,7 @@ int main()
             cout << "Enter income category: ";
             cin.ignore();
             getline(cin, category);
-            currentUser->addIncome(amount, category);
+            currentUser.addIncome(amount, category);
             break;
         }
         case 2:
@@ -218,7 +217,7 @@ int main()
             cout << "Enter expense category: ";
             cin.ignore();
             getline(cin, category);
-            currentUser->addExpense(amount, category);
+            currentUser.addExpense(amount, category);
             break;
         }
         case 3:
@@ -234,17 +233,18 @@ int main()
             cout << "Enter your password for confirmation: ";
             cin.ignore();
             getline(cin, pass);
-            currentUser->addTransaction(amount, phoneGetter, users, currentUser, pass);
+            currentUser.addTransaction(amount, phoneGetter, users, currentUser, pass);
             break;
         }
         case 4:
-            cout << "\nCurrent Balance: " << currentUser->getBalance() << endl;
+            cout << "\nCurrent Balance: " << currentUser.getBalance() << endl;
             break;
         case 5:
-            currentUser->displayTransactions();
+            currentUser.displayTransactions();
             break;
         case 0:
             cout << "\nExiting the Personal Finance Tracker. Goodbye!\n";
+            currentUser.exitMessage();
             return 0;
         default:
             cout << "Invalid choice. Please enter a valid option (1, 2, 3, 4, 5, or 0).\n";
