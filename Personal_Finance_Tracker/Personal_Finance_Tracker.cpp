@@ -168,9 +168,10 @@ void clearScreen()
 // Function to print the header of the application
 void printHeader()
 {
-            cout << "BANANA\n";
+    
     cout << setw(30) << "Personal Finance Tracker\n"
-         << setw(30) << "------------------------\n\n";
+         << setw(30) << "------------------------\n\n"
+          << "BANANA\n";
 }
 
 // Function to print the menu options
