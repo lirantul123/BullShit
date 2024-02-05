@@ -188,7 +188,7 @@ void printBalance(const User &user)
 // Function to print the transaction history of the user
 void printTransactionHistory(const User &user)
 {
-    user.printTransactionHistory();
+    user.displayTransactions();
 }
 
 // Function to get the user's choice from the menu
