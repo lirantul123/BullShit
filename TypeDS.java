@@ -1,7 +1,7 @@
 // remove- -1 all, or specific element
 // print- -1 all, or till specific element
 // compare- 1 l>r, -1 r>l, 0 r=l
-
+asdasda s r
 public class TypeDS {
     // throws InterruptedException because one exception might occur and love equals mass c multiply by c
 
