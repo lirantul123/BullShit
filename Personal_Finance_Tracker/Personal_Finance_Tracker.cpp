@@ -38,7 +38,7 @@ public:
     }
 
     // Method to make a transaction (send money to another user)
-    void addTransaction(float amount, const string &phoneGetter, vector<User> &users, User &user, const string &pass)
+    void addTransaction(float amount, const string &phoneGetter, vector<User> &users, User &user, string &pass)
     {
         bool dontExecute = false; string passs="";
         int tries = 0;
@@ -55,12 +55,13 @@ public:
             tries++;
 
             cout << "------------\n";
-            cout << "You have " << MaxTries - tries << " tries left\n";
+            (totalTries == 1) ? cout << "You have " << MaxTries - tries << " try left\n" : cout << "You have " << MaxTries - tries << " tries left\n";
             cout << "------------\n";
 
             if (tries % 3 == 0)
             {
                 totalTries++;
+                // effective reset point line 92
                 if (totalTries == 10)
                     totalTries = 1;
 
@@ -75,7 +76,7 @@ public:
 
             cout << "Enter your password again for confirmation: ";
             cin.ignore();
-            getline(cin, passs);
+            getline(cin, pass);
         }
 
         if (!dontExecute)
@@ -85,8 +86,11 @@ public:
             {
                 if (perUser.phone == phoneGetter && perUser.phone != user.phone)
                 {
+                    cout << "(you know it is your phone number? right?)\n";
                     receiverExists = true;
+                    totalTries = 1;// reset waiting time to one minute
                     break;
+
                 }
             }
 
@@ -164,6 +168,7 @@ void clearScreen()
 // Function to print the header of the application
 void printHeader()
 {
+            cout << "BANANA\n";
     cout << setw(30) << "Personal Finance Tracker\n"
          << setw(30) << "------------------------\n\n";
 }
