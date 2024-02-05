@@ -170,8 +170,7 @@ void printHeader()
 {
     
     cout << setw(30) << "Personal Finance Tracker\n"
-         << setw(30) << "------------------------\n\n"
-          << "BANANA\n";
+         << setw(30) << "------------------------\n\n";
 }
 
 // Function to print the menu options
